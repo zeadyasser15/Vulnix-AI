@@ -1,0 +1,381 @@
+@import url('https://fonts.googleapis.com/css2?family=Iceberg&family=Orbitron:wght@400..900&family=Rubik+Glitch&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Orbitron', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #000000;
+    color: #e2e8f0;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom glowing effects and glassmorphism matching design */
+.glass-panel {
+  background: rgba(18, 14, 20, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 30px -10px rgba(220, 38, 38, 0.08);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  border-color: rgba(239, 68, 68, 0.35);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.8), 0 0 35px -5px rgba(239, 68, 68, 0.25);
+  transform: translateY(-2px);
+}
+
+.btn-crimson-glow {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+  box-shadow: 0 0 25px -2px rgba(239, 68, 68, 0.65), 0 0 50px -10px rgba(220, 38, 38, 0.4);
+  transition: all 0.25s ease;
+}
+
+.btn-crimson-glow:hover {
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 50%, #dc2626 100%);
+  box-shadow: 0 0 35px 2px rgba(239, 68, 68, 0.85), 0 0 65px -5px rgba(239, 68, 68, 0.5);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.crimson-text-gradient {
+  background: linear-gradient(135deg, #ff4d6d 0%, #ef4444 50%, #b91c1c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.crimson-radial-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.18) 0%, rgba(220, 38, 38, 0.06) 45%, transparent 75%);
+}
+
+.scanline {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.3)
+  );
+  background-size: 100% 4px;
+}
+
+/* Animations */
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+@keyframes slowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-slow-spin {
+  animation: slowSpin 35s linear infinite;
+}
+
+@keyframes reverseSlowSpin {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-reverse-slow-spin {
+  animation: reverseSlowSpin 45s linear infinite;
+}
+
+/* --- Earth Entrance Animation (Loads First) --- */
+@keyframes earthEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateZ(0);
+    filter: blur(10px) brightness(0.6) drop-shadow(0 0 0px rgba(239, 68, 68, 0));
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1.05) translateZ(0);
+    filter: blur(0px) brightness(1.25) drop-shadow(0 0 85px rgba(239, 68, 68, 0.7));
+  }
+  85% {
+    transform: scale(0.98) translateZ(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+    filter: blur(0px) brightness(1) drop-shadow(0 0 60px rgba(239, 68, 68, 0.35));
+  }
+}
+
+.animate-earth-entrance {
+  animation: earthEntrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes ringExpand {
+  0% {
+    opacity: 0;
+    transform: scale(0.25);
+  }
+  60% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-ring-expand {
+  animation: ringExpand 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* --- Cards Gravitational Attraction (Follows the Earth) --- */
+@keyframes attractTopLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-160px, -70px, 0) scale(0.55) rotate(-5deg);
+    filter: blur(8px);
+  }
+  65% {
+    opacity: 0.95;
+    transform: translate3d(8px, 4px, 0) scale(1.03) rotate(0.5deg);
+    filter: blur(0px);
+  }
+  85% {
+    transform: translate3d(-2px, -1px, 0) scale(0.99) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    filter: blur(0px);
+  }
+}
+
+.animate-attract-tl {
+  animation: attractTopLeft 1.05s cubic-bezier(0.175, 0.885, 0.32, 1.22) forwards;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes attractBottomLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-160px, 70px, 0) scale(0.55) rotate(5deg);
+    filter: blur(8px);
+  }
+  65% {
+    opacity: 0.95;
+    transform: translate3d(8px, -4px, 0) scale(1.03) rotate(-0.5deg);
+    filter: blur(0px);
+  }
+  85% {
+    transform: translate3d(-2px, 1px, 0) scale(0.99) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    filter: blur(0px);
+  }
+}
+
+.animate-attract-bl {
+  animation: attractBottomLeft 1.05s cubic-bezier(0.175, 0.885, 0.32, 1.22) forwards;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes attractTopRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(160px, -70px, 0) scale(0.55) rotate(5deg);
+    filter: blur(8px);
+  }
+  65% {
+    opacity: 0.95;
+    transform: translate3d(-8px, 4px, 0) scale(1.03) rotate(-0.5deg);
+    filter: blur(0px);
+  }
+  85% {
+    transform: translate3d(2px, -1px, 0) scale(0.99) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    filter: blur(0px);
+  }
+}
+
+.animate-attract-tr {
+  animation: attractTopRight 1.05s cubic-bezier(0.175, 0.885, 0.32, 1.22) forwards;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes attractBottomRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(160px, 70px, 0) scale(0.55) rotate(-5deg);
+    filter: blur(8px);
+  }
+  65% {
+    opacity: 0.95;
+    transform: translate3d(-8px, -4px, 0) scale(1.03) rotate(0.5deg);
+    filter: blur(0px);
+  }
+  85% {
+    transform: translate3d(2px, 1px, 0) scale(0.99) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    filter: blur(0px);
+  }
+}
+
+.animate-attract-br {
+  animation: attractBottomRight 1.05s cubic-bezier(0.175, 0.885, 0.32, 1.22) forwards;
+  will-change: transform, opacity, filter;
+}
+
+/* Staggered Attraction Delays */
+.delay-attract-1 {
+  animation-delay: 0.72s;
+}
+.delay-attract-2 {
+  animation-delay: 0.88s;
+}
+.delay-attract-3 {
+  animation-delay: 1.04s;
+}
+.delay-attract-4 {
+  animation-delay: 1.20s;
+}
+
+/* --- Zero-Gravity Continuous Hovering in Orbit --- */
+@keyframes floatGentle1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -7px, 0);
+  }
+}
+
+@keyframes floatGentle2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 7px, 0);
+  }
+}
+
+@keyframes floatGentle3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+@keyframes floatGentle4 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+.animate-orbit-float-1 {
+  animation: floatGentle1 5.2s ease-in-out infinite;
+}
+
+.animate-orbit-float-2 {
+  animation: floatGentle2 5.8s ease-in-out infinite;
+}
+
+.animate-orbit-float-3 {
+  animation: floatGentle3 4.9s ease-in-out infinite;
+}
+
+.animate-orbit-float-4 {
+  animation: floatGentle4 6.2s ease-in-out infinite;
+}
+
+/* --- Magnetic Connection Streams --- */
+@keyframes magneticPulse {
+  0% {
+    stroke-dashoffset: 40;
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.25;
+  }
+}
+
+.animate-magnetic-stream {
+  animation: magneticPulse 3.2s linear infinite;
+}
+
+@keyframes fadeInDelayed {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-delayed {
+  animation: fadeInDelayed 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2228;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ef4444;
+}
+
