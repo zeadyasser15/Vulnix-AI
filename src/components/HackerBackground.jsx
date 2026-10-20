@@ -1,23 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 
-/**
- * HackerBackground (Enhanced & Bug-fixed version of EldoraUI Hacker Background)
- *
- * Fixes included:
- * 1. High-DPI / Retina display crisp rendering (no blurry characters).
- * 2. Proper container bounds & ResizeObserver (doesn't assume window.innerWidth).
- * 3. Dynamic columns recalculation on resize (prevents blank canvas gaps).
- * 4. Battery / GPU saver: auto-pauses when tab is hidden or element is off-screen.
- * 5. Customizable head character highlight (classic Matrix/cyber rain effect).
- * 6. React 19 / JSX compatibility with zero TypeScript lint errors.
- */
 export const HackerBackground = ({
   color = '#ef4444',
-  highlightColor = '#f00a02ff',
+  highlightColor = '#ffffff',
   fontSize = 14,
-  speed = 1,
+  speed = 0.8,
   className = '',
-  fadeAlpha = 5,
+  fadeAlpha = 0.06,
   fps = 30,
   characters = '0123456789ABCDEFabcdef!@#$%^&*()_+-=[]{}|;:,.<>?/~',
 }) => {
@@ -33,6 +22,7 @@ export const HackerBackground = ({
     let animationFrameId;
     let isVisible = true;
     let drops = [];
+    let speeds = [];
     let lastTime = 0;
     const interval = 1000 / fps;
 
@@ -51,11 +41,15 @@ export const HackerBackground = ({
       ctx.scale(dpr, dpr);
 
       const columns = Math.max(1, Math.floor(width / fontSize));
+      const totalRows = Math.max(1, Math.floor(height / fontSize));
       const oldDrops = drops;
+      const oldSpeeds = speeds;
       drops = new Array(columns);
+      speeds = new Array(columns);
       for (let i = 0; i < columns; i++) {
-        // Keep existing drop positions when resizing, or initialize random offsets
-        drops[i] = oldDrops[i] !== undefined ? oldDrops[i] : Math.floor(Math.random() * -30);
+        // Distribute drops vertically across canvas so rain is active immediately
+        drops[i] = oldDrops[i] !== undefined ? oldDrops[i] : Math.floor(Math.random() * totalRows);
+        speeds[i] = oldSpeeds[i] !== undefined ? oldSpeeds[i] : speed * (0.65 + Math.random() * 0.7);
       }
     };
 
@@ -107,13 +101,14 @@ export const HackerBackground = ({
       for (let i = 0; i < drops.length; i++) {
         const char = charList[Math.floor(Math.random() * charList.length)];
         const x = i * fontSize;
-        const y = drops[i] * fontSize;
+        const currentDrop = Math.floor(drops[i]);
+        const y = currentDrop * fontSize;
 
         // Draw glowing bright lead character
         if (highlightColor) {
           ctx.fillStyle = highlightColor;
           ctx.shadowColor = color;
-          ctx.shadowBlur = 6;
+          ctx.shadowBlur = 8;
           ctx.fillText(char, x, y);
           ctx.shadowBlur = 0;
         }
@@ -121,14 +116,15 @@ export const HackerBackground = ({
         // Draw the colored trailing character right behind the head
         ctx.fillStyle = color;
         const prevChar = charList[Math.floor(Math.random() * charList.length)];
-        ctx.fillText(prevChar, x, (drops[i] - 1) * fontSize);
+        ctx.fillText(prevChar, x, (currentDrop - 1) * fontSize);
 
         // Reset drop to top with randomized delay once it falls past bottom
-        if (y > height && Math.random() > 0.975) {
+        if (y > height && Math.random() > 0.96) {
           drops[i] = 0;
+          speeds[i] = speed * (0.65 + Math.random() * 0.7);
         }
 
-        drops[i] += speed;
+        drops[i] += speeds[i];
       }
     };
 
