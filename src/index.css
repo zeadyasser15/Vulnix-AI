@@ -1,6 +1,6 @@
 @import 'tailwindcss';
-@plugin 'lightswind/plugin';
-@theme {
+
+/* @theme {
   --font-exo: "Exo 2", ui-sans-serif, system-ui, sans-serif;
   --font-orbitron: "Orbitron", ui-sans-serif, system-ui, sans-serif;
-}
+} */

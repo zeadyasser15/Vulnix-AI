@@ -15,6 +15,18 @@ export default function Hero() {
         trailLength={25}
         charset="01"
       />
+      {/* bg 120300 */}
+  {/* <Matrix
+    contained
+    bg="transparent"
+    color="#5c2230"
+    headColor="#ff2a4a"
+    fontSize={15}
+    speed={12}
+    density={0.6}
+    trailLength={12}
+    charset="01"
+  /> */}
 
       <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2">
        
